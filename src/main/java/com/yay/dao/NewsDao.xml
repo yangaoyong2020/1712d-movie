@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yay.dao.NewsDao">
+  <insert id="insert">
+      insert into t_news_link(id,title,url,score,created) values
+      <foreach collection="list" item="t_news_link" separator=",">
+         (#{id},#{title},#{url},#{score},#{created})
+      </foreach>
+  </insert>
+  <select id="list" resultType="News">
+    select * from t_news_link
+    <where>
+      <if test="g1!=null and g1!=''">title like count('%'#{g1}'%')</if>
+    </where>
+    <if test="（orderName!=null and orderName!='') and orderMethod!=null and orderMethod!=''" >
+      #{orderName} #{orderMethod}
+    </if>
+  </select>
+</mapper>
